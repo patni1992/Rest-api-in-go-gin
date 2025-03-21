@@ -1,0 +1,84 @@
+# Create a new event
+curl -X POST http://localhost:8080/api/v1/events \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6zkpXVCJ9.eyJleHByIjoxNzQwMDM2NzM3LCJ1c2VySWQiOjF9.mYtPAM88tgC9mDKpAlIAMrTweFblLHjvNVB6lVSSaMM" \
+-d '{
+  "name": "Go Conference",
+  "ownerId": 1,
+  "description": "A conference about Go programming",
+  "date": "2025-05-20",
+  "location": "San Francisco"
+}' \
+-w "\nHTTP Status: %{http_code}\n"
+
+# Retrieve all events
+curl -X GET http://localhost:8080/api/v1/events \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6zkpXVCJ9.eyJleHByIjoxNzQwMDM2NzM3LCJ1c2VySWQiOjF9.mYtPAM88tgC9mDKpAlIAMrTweFblLHjvNVB6lVSSaMM" \
+-w "\nHTTP Status: %{http_code}\n"
+
+# Update an existing event
+curl -X PUT http://localhost:8080/api/v1/events/4 \
+-H "Content-Type: application/json" \
+-d '{
+  "name": "Go Conference",
+  "ownerId": 1,
+  "description": "A conference about Go programming",
+  "date": "2025-05-20",
+  "location": "New York"
+}' \
+-w "\nHTTP Status: %{http_code}\n"
+
+# Retrieve single event
+curl -X GET http://localhost:8080/api/v1/events/4 \
+-H "Content-Type: application/json" \
+-w "\nHTTP Status: %{http_code}\n"
+
+# Get attendees for event
+curl -X GET http://localhost:8080/api/v1/events/7/attendees \
+-H "Content-Type: application/json" \
+-w "\nHTTP Status: %{http_code}\n"
+
+# Add attendee to event
+curl -X POST http://localhost:8080/api/v1/events/7/attendees/1 \
+-H "Content-Type: application/json" \
+-w "\nHTTP Status: %{http_code}\n"
+
+# Delete attendee from event
+curl -X DELETE http://localhost:8080/api/v1/events/7/attendees/1 \
+-H "Content-Type: application/json" \
+-w "\nHTTP Status: %{http_code}\n"
+
+# Delete an event
+curl -X DELETE http://localhost:8080/api/v1/events/4 \
+-H "Content-Type: application/json" \
+-w "\nHTTP Status: %{http_code}\n"
+
+# Register a new user
+curl -X POST http://localhost:8080/api/v1/auth/register \
+-H "Content-Type: application/json" \
+-d '{
+  "email": "test@example.com",
+  "password": "password",
+  "name": "Test User"
+}' \
+-w "\nHTTP Status: %{http_code}\n"
+
+# Login
+curl -X POST http://localhost:8080/api/v1/auth/login \
+-H "Content-Type: application/json" \
+-d '{
+  "email": "test@example.com",
+  "password": "password"
+}' \
+-w "\nHTTP Status: %{http_code}\n"
+
+# Authentication with Bearer Token
+# After logging in, you'll receive a JWT token. Add it to subsequent requests using:
+# -H "Authorization: Bearer YOUR_JWT_TOKEN"
+# Example:
+curl -X GET http://localhost:8080/api/v1/events \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6zkpXVCJ9.eyJleHByIjoxNzQwMDM2NzM3LCJ1c2VySWQiOjF9.mYtPAM88tgC9mDKpAlIAMrTweFblLHjvNVB6lVSSaMM" \
+-w "\nHTTP Status: %{http_code}\n"
+

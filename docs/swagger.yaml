@@ -1,0 +1,338 @@
+definitions:
+  database.Attendee:
+    properties:
+      eventId:
+        type: integer
+      id:
+        type: integer
+      userId:
+        type: integer
+    type: object
+  database.Event:
+    properties:
+      date:
+        type: string
+      description:
+        minLength: 10
+        type: string
+      id:
+        type: integer
+      location:
+        minLength: 3
+        type: string
+      name:
+        minLength: 3
+        type: string
+      ownerId:
+        type: integer
+    required:
+    - date
+    - description
+    - location
+    - name
+    type: object
+  database.User:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  main.loginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        minLength: 8
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  main.loginResponse:
+    properties:
+      token:
+        type: string
+    type: object
+  main.registerRequest:
+    properties:
+      email:
+        type: string
+      name:
+        minLength: 2
+        type: string
+      password:
+        minLength: 8
+        type: string
+    required:
+    - email
+    - name
+    - password
+    type: object
+info:
+  contact: {}
+  description: A rest API in Go using Gin framework
+  title: Go Gin Rest API
+  version: "1.0"
+paths:
+  /api/v1/attendees/{id}/events:
+    get:
+      consumes:
+      - application/json
+      description: Returns all events for a given attendee
+      parameters:
+      - description: Attendee ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/database.Event'
+            type: array
+      summary: Returns all events for a given attendee
+      tags:
+      - attendees
+  /api/v1/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Logs in a user
+      parameters:
+      - description: User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/main.loginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.loginResponse'
+      summary: Logs in a user
+      tags:
+      - auth
+  /api/v1/events:
+    get:
+      consumes:
+      - application/json
+      description: Returns all events
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/database.Event'
+            type: array
+      summary: Returns all events
+      tags:
+      - events
+    post:
+      consumes:
+      - application/json
+      description: Creates a new event
+      parameters:
+      - description: Event
+        in: body
+        name: event
+        required: true
+        schema:
+          $ref: '#/definitions/database.Event'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/database.Event'
+      security:
+      - BearerAuth: []
+      summary: Creates a new event
+      tags:
+      - events
+  /api/v1/events/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes an existing event
+      parameters:
+      - description: Event ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      security:
+      - BearerAuth: []
+      summary: Deletes an existing event
+      tags:
+      - events
+    get:
+      consumes:
+      - application/json
+      description: Returns a single event
+      parameters:
+      - description: Event ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/database.Event'
+      summary: Returns a single event
+      tags:
+      - events
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing event
+      parameters:
+      - description: Event ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Event
+        in: body
+        name: event
+        required: true
+        schema:
+          $ref: '#/definitions/database.Event'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/database.Event'
+      security:
+      - BearerAuth: []
+      summary: Updates an existing event
+      tags:
+      - events
+  /api/v1/events/{id}/attendees:
+    get:
+      consumes:
+      - application/json
+      description: Returns all attendees for a given event
+      parameters:
+      - description: Event ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/database.User'
+            type: array
+      summary: Returns all attendees for a given event
+      tags:
+      - attendees
+  /api/v1/events/{id}/attendees/{userId}:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes an attendee from an event
+      parameters:
+      - description: Event ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      security:
+      - BearerAuth: []
+      summary: Deletes an attendee from an event
+      tags:
+      - attendees
+    post:
+      consumes:
+      - application/json
+      description: Adds an attendee to an event
+      parameters:
+      - description: Event ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/database.Attendee'
+      security:
+      - BearerAuth: []
+      summary: Adds an attendee to an event
+      tags:
+      - attendees
+  /api/v1/register:
+    post:
+      consumes:
+      - application/json
+      description: Registers a new user
+      parameters:
+      - description: User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/main.registerRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/database.User'
+      summary: Registers a new user
+      tags:
+      - auth
+securityDefinitions:
+  BearerAuth:
+    description: Enter your bearer token in the format **Bearer &lt;token&gt;**
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
