@@ -4,6 +4,8 @@ https://codingwithpatrik.dev/posts/rest-api-in-gin/
 
 ## Development Setup
 
+⚠️ **Important**: Before running the application, make sure to set up the database by following the [Database Migrations](#database-migrations) section below.
+
 ### Using Air for Live Reload
 
 This project uses Air for live reload during development. Here's how to get started:
@@ -64,7 +66,7 @@ Golang migrate https://github.com/golang-migrate/migrate/blob/master/cmd/migrate
 
 #### Running Migrations
 
-To run migrations up (apply new migrations):
+⚠️ **Required**: Before running the application for the first time, you must run the database migrations to create all necessary database tables and schemas:
 
 ```bash
 go run ./cmd/migrate up
@@ -110,6 +112,12 @@ After building, you can run the application using:
 The server will start on `http://localhost:8080` by default.
 
 ### API Documentation
+
+To generate the Swagger documentation, run:
+
+```bash
+swag init --dir cmd/api --parseDependency --parseInternal --parseDepth 1
+```
 
 The API documentation is available via Swagger UI at:
 
