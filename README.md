@@ -36,6 +36,59 @@ The project is already configured with a `.air.toml` file that:
 - Includes Go files, templates, and HTML files
 - Uses colorized output for better visibility
 
+### Running Without Air
+
+If you prefer not to use Air, you can run the application directly with Go:
+
+```bash
+go run ./cmd/api
+```
+
+This will start the server on `http://localhost:8080`. Note that you'll need to manually restart the server when you make changes to the code.
+
+### Dependencies
+
+This project uses Go modules for dependency management. Dependencies will be automatically downloaded when you build or run the application. No manual installation is required.
+
+If you want to explicitly download dependencies, you can run:
+
+```bash
+go mod download
+```
+
+### Database Migrations
+
+This project uses golang-migrate for database migrations. First, install the migrate CLI:
+
+Golang migrate https://github.com/golang-migrate/migrate/blob/master/cmd/migrate/README.md
+
+#### Running Migrations
+
+To run migrations up (apply new migrations):
+
+```bash
+go run ./cmd/migrate up
+```
+
+To rollback migrations (undo last migration):
+
+```bash
+go run ./cmd/migrate down
+```
+
+#### Creating New Migrations
+
+To create a new migration:
+
+```bash
+migrate create -ext sql -dir ./cmd/migrate/migrations -seq name_of_migration
+```
+
+This will create two new files in the migrations directory:
+
+- `{timestamp}_name_of_migration.up.sql`
+- `{timestamp}_name_of_migration.down.sql`
+
 ### Building the Application
 
 To build the application:
