@@ -122,6 +122,28 @@ paths:
       summary: Logs in a user
       tags:
       - auth
+  /api/v1/auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Registers a new user
+      parameters:
+      - description: User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/main.registerRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/database.User'
+      summary: Registers a new user
+      tags:
+      - auth
   /api/v1/events:
     get:
       consumes:
@@ -307,28 +329,6 @@ paths:
       summary: Adds an attendee to an event
       tags:
       - attendees
-  /api/v1/register:
-    post:
-      consumes:
-      - application/json
-      description: Registers a new user
-      parameters:
-      - description: User
-        in: body
-        name: user
-        required: true
-        schema:
-          $ref: '#/definitions/main.registerRequest'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            $ref: '#/definitions/database.User'
-      summary: Registers a new user
-      tags:
-      - auth
 securityDefinitions:
   BearerAuth:
     description: Enter your bearer token in the format **Bearer &lt;token&gt;**

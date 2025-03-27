@@ -33,7 +33,7 @@ type registerRequest struct {
 // @Produce		json
 // @Param			user	body		registerRequest	true	"User"
 // @Success		201	{object}	database.User
-// @Router			/api/v1/register [post]
+// @Router			/api/v1/auth/register [post]
 func (app *application) registerUser(c *gin.Context) {
 	var register registerRequest
 
@@ -73,7 +73,7 @@ func (app *application) registerUser(c *gin.Context) {
 //	@Produce		json
 //	@Param			user	body	loginRequest	true	"User"
 //	@Success		200	{object}	loginResponse
-//	@Router			/api/v1/login [post]
+//	@Router			/api/v1/auth/login [post]
 func (app *application) login(c *gin.Context) {
 	var auth loginRequest
 	if err := c.ShouldBindJSON(&auth); err != nil {
