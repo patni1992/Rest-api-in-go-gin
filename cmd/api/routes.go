@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"rest-api-in-gin/internal/env"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -37,7 +38,8 @@ func (app *application) routes() http.Handler {
 			c.Redirect(302, "/swagger/index.html")
 			return
 		}
-		ginSwagger.WrapHandler(swaggerFiles.Handler, ginSwagger.URL("http://localhost:8080/swagger/doc.json"))(c)
+		baseURL := env.GetEnvString("BASE_URL", "http://localhost:8080")
+		ginSwagger.WrapHandler(swaggerFiles.Handler, ginSwagger.URL(baseURL+"/swagger/doc.json"))(c)
 	})
 
 	return g

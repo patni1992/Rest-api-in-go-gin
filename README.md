@@ -38,6 +38,18 @@ The project is already configured with a `.air.toml` file that:
 - Includes Go files, templates, and HTML files
 - Uses colorized output for better visibility
 
+### Environment Variables
+
+For local development, you can optionally create a `.env` file with these variables (all have sensible defaults):
+
+```bash
+BASE_URL=http://localhost:8080
+PORT=8080
+JWT_SECRET=your-secret-key
+```
+
+For production, make sure to set these values through your deployment platform's environment configuration.
+
 ### Running Without Air
 
 If you prefer not to use Air, you can run the application directly with Go:
