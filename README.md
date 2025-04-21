@@ -143,3 +143,9 @@ This interactive documentation provides:
 - Request/response schemas
 - Try-it-out functionality
 - Authentication details
+
+## Deploying to AWS EC2
+
+For a detailed guide on deploying this application to AWS EC2, including setting up Nginx, SSL, and a custom domain, please refer to the following blog post:
+
+[Deploy a Go app to AWS (EC2) with Nginx, SSL & Custom Domain (Step-by-Step)](https://codingwithpatrik.dev/posts/deploy-go-rest-api-to-aws-ec2/)
