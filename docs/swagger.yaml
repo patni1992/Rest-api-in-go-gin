@@ -11,6 +11,7 @@ definitions:
   database.Event:
     properties:
       date:
+        description: to keep backwards compatibility old date format is accepted
         type: string
       description:
         minLength: 10
@@ -55,6 +56,8 @@ definitions:
     properties:
       token:
         type: string
+      userId:
+        type: integer
     type: object
   main.registerRequest:
     properties:
@@ -329,6 +332,23 @@ paths:
       summary: Adds an attendee to an event
       tags:
       - attendees
+  /api/v1/users:
+    get:
+      consumes:
+      - application/json
+      description: Returns all users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/database.User'
+            type: array
+      summary: Returns all users
+      tags:
+      - users
 securityDefinitions:
   BearerAuth:
     description: Enter your bearer token in the format **Bearer &lt;token&gt;**
