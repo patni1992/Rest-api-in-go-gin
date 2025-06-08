@@ -16,7 +16,8 @@ type loginRequest struct {
 }
 
 type loginResponse struct {
-	Token string `json:"token"`
+	Token  string `json:"token"`
+	UserId int    `json:"userId"`
 }
 
 type registerRequest struct {
@@ -109,6 +110,6 @@ func (app *application) login(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, loginResponse{Token: tokenString})
+	c.JSON(http.StatusOK, loginResponse{Token: tokenString, UserId: existingUser.Id})
 
 }
