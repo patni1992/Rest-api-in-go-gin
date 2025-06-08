@@ -52,3 +52,37 @@ func (m *UserModel) GetByEmail(email string) (*User, error) {
 	query := "SELECT * FROM users WHERE email = $1"
 	return m.getUser(query, email)
 }
+
+func (m *UserModel) GetAll() ([]*User, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	query := "SELECT * FROM users"
+
+	rows, err := m.DB.QueryContext(ctx, query)
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	users := []*User{}
+
+	for rows.Next() {
+		var user User
+
+		err := rows.Scan(&user.Id, &user.Email, &user.Name, &user.Password)
+		if err != nil {
+			return nil, err
+		}
+
+		users = append(users, &user)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return users, nil
+
+}
