@@ -409,6 +409,11 @@ const docTemplate = `{
         },
         "/api/v1/users": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Returns all users",
                 "consumes": [
                     "application/json"

@@ -14,6 +14,7 @@ import (
 // @Produce		json
 // @Success		200		{object}	[]database.User
 // @Router			/api/v1/users [get]
+// @Security		BearerAuth
 func (app *application) getAllUsers(c *gin.Context) {
 	users, err := app.models.Users.GetAll()
 

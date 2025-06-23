@@ -346,6 +346,8 @@ paths:
             items:
               $ref: '#/definitions/database.User'
             type: array
+      security:
+      - BearerAuth: []
       summary: Returns all users
       tags:
       - users
